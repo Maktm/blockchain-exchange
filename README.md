@@ -10,7 +10,7 @@ git clone https://github.com/Maktm/blockchain-exchange.git && blockchain-exchang
 Set up a virtual environment using virtualenv and install the dependencies:
 
 ```
-virtualenv venv && pip install -r requirements.txt
+virtualenv venv && venv\Scripts\activate && pip install -r requirements.txt
 ```
 
 Run the web application
