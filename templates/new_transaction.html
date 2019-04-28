@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Make Transaction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            body {
+              margin: 0;
+              font-family: Arial, Helvetica, sans-serif;
+            }
+             table, th, td {
+              border: 1px solid black;
+            }
+            .topnav {
+              overflow: hidden;
+              background-color: black;
+              text-align: center;
+            }
+             .topnav a {
+              float: left;
+              color: #f2f2f2;
+              text-align: left;
+              padding: 14px 16px;
+              text-decoration: none;
+              font-size: 17px;
+            }
+             .topnav a:hover {
+              background-color: #ddd;
+              color: black;
+            }
+             .topnav a.active {
+              background-color: red;
+              color: white;
+            }
+    </style>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+
+     <div class="topnav">
+      <a href="/">Wallet</a>
+      <a href="/transaction/view">View transaction</a>
+      <a href="/transaction/new">Create transaction</a>
+    </div>
+
+     <form id="transaction_form">
+
+        <div class="row">
+          <label class="col-sm-2">Sender Address:</label>
+          <div class="col-sm-10">
+            <input type="text" name="sender_address" id="sender_address" rows="2" class="form-control">
+
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <label class="col-sm-2">Sender Private Key:</label>
+          <div class="col-sm-10">
+            <input type="text" name="sender_private_key" id="sender_private_key" rows="2" class="form-control">
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <label class="col-sm-2">Recipient Address:</label>
+          <div class="col-sm-10">
+            <input type="text" name="recipient_address" id="recipient_address" rows="2" class="form-control">
+          </div>
+        </div>
+
+        <br>
+
+         <div class="row">
+          <label class="col-sm-2">Stock: </label>
+          <div class="col-sm-10">
+            <input type="text" name="stock" id="amount" rows="2" class="form-control">
+          </div>
+        </div>
+
+         <br>
+
+        <div class="row">
+          <label class="col-sm-2">Quantity: </label>
+          <div class="col-sm-10">
+            <input type="text" name="quantity" id="amount" rows="2" class="form-control">
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <input type="button" id="generate_transaction" class="btn btn-primary btn-lg" value="Generate Transaction">
+          </div>
+        </div>
+
+        <br>
+
+    </form>
+
+    <script>
+      $("#generate_transaction").click(function() {
+          $.ajax({
+              url: '/api/transaction/new',
+              type: "POST",
+              data: $('#transaction_form').serialize(),
+              success: function(response) {
+                  alert('Transaction was a success!')
+              },
+              error: function(request, error) {
+                  console.log(error);
+              }
+          });
+      });
+    </script>
+
+ </body>
+</html>

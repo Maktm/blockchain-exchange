@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View Transaction</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
+            crossorigin="anonymous"></script>
+
+    <style>
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+         table, th, td {
+          border: 1px solid black;
+        }
+        .topnav {
+          overflow: hidden;
+          background-color: black;
+          text-align: center;
+        }
+         .topnav a {
+          float: left;
+          color: #f2f2f2;
+          text-align: left;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+         .topnav a:hover {
+          background-color: #ddd;
+          color: black;
+        }
+         .topnav a.active {
+          background-color: red;
+          color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="topnav">
+  <a href="/">Wallet</a>
+  <a href="/transaction/view">View Transactions</a>
+  <a href="/transaction/new">Create Transaction</a>
+</div>
+
+<table id="transactions_table" class="table-responsive">
+    <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">Recipient</th>
+        <th scope="col">Sender</th>
+        <th scope="col">Stock</th>
+        <th scope="col">Quantity</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+
+<script>
+$(function() {
+    $.ajax({
+        url: '/api/transaction/view',
+        type: 'GET',
+        success: function(response) {
+            console.log(response);
+
+            var transactions = [];
+            count = 1;
+
+            for (i = 1; i < response.length; i++) {
+                transaction = [
+                    i,
+                    response["chain"][i]["transactions"][0]["recipient_address"],
+                    response["chain"][i]["transactions"][0]["sender_address"],
+                    response["chain"][i]["transactions"][0]["stock"],
+                    response["chain"][i]["transactions"][0]["quantity"],
+                    'Timessss',
+                    response["chain"][i]["block_number"]];
+
+                transactions.push(transaction);
+
+                table_contents = '<tr><th scope="row">' + i + "</th><td>" + response["chain"][i]["transactions"][0]["recipient_address"]
+                    + '</td><td>' + response["chain"][i]["transactions"][0]["sender_address"] + '</td><td>' + response["chain"][i]["transactions"][0]["stock"]
+                    + '</td><td>' + response["chain"][i]["transactions"][0]["quantity"] + '</td></tr>';
+
+                $('#transactions_table').append(table_contents);
+            }
+        },
+        error: function(error) {
+            console.log('Error: ' + error);
+        }
+    });
+});
+</script>
+
+</body>
+</html>

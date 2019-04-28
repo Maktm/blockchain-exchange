@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Wallet</title>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.4.0.js" integrity="sha256-DYZMCC8HTC+QDr5QNaIcfR7VSPtcISykd+6eSmBW5qo="
+            crossorigin="anonymous"></script>
+
+    <style>
+        body {
+          margin: 0;
+          font-family: Arial, Helvetica, sans-serif;
+        }
+         table, th, td {
+          border: 1px solid black;
+        }
+        .topnav {
+          overflow: hidden;
+          background-color: black;
+          text-align: center;
+        }
+         .topnav a {
+          float: left;
+          color: #f2f2f2;
+          text-align: left;
+          padding: 14px 16px;
+          text-decoration: none;
+          font-size: 17px;
+        }
+         .topnav a:hover {
+          background-color: #ddd;
+          color: black;
+        }
+         .topnav a.active {
+          background-color: red;
+          color: white;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<div class="topnav">
+  <a href="/">Wallet</a>
+  <a href="/transaction/view">View Transactions</a>
+  <a href="/transaction/new">Create Transaction</a>
+</div>
+
+<!-- Wallet -->
+<div class="row">
+    <label class="col-sm-2">Public Key:</label>
+      <div class="col-sm-10">
+        <textarea id="public_key" rows="5" class="form-control" readonly></textarea>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <label class="col-sm-2">Private Key:</label>
+      <div class="col-sm-10">
+        <textarea id="private_key" rows="5" class="form-control" readonly></textarea>
+      </div>
+    </div>
+
+<input type="button" value="Generate Wallet">
+
+<script>
+  $(function(){
+    $('input').click(function(){
+      $.ajax({
+        url: '/api/wallet/create',
+        type: 'GET',
+        success: function(response){
+          document.getElementById("private_key").innerHTML = response['private_key'];
+          document.getElementById("public_key").innerHTML = response['public_key'];
+        },
+        error: function(error){
+          console.log(error);
+        }
+      });
+    });
+  })
+</script>
+
+</body>
+</html>
